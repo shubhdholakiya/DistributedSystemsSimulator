@@ -23,6 +23,55 @@ def create_node():
 def get_nodes():
     return jsonify(nodes)
 
+@app.route('/nodes/<int:node_id>', methods=['PUT'])
+def update_node(node_id):
+    data = request.json
+    node = next((node for node in nodes if node['id'] == node_id), None)
+    if node is None:
+        return jsonify({'message': 'Node not found'}), 404
+    node.update({
+        'status': data.get('status', node['status']),
+        'load': data.get('load', node['load'])
+    })
+    return jsonify(node)
+
+@app.route('/nodes/<int:node_id>', methods=['DELETE'])
+def delete_node(node_id):
+    global nodes  # Since we're modifying the list
+    node = next((node for node in nodes if node['id'] == node_id), None)
+    if node is None:
+        return jsonify({'message': 'Node not found'}), 404
+    nodes = [node for node in nodes if node['id'] != node_id]
+    return jsonify({'message': 'Node deleted'})
+
+
+@app.route('/simulate/communication', methods=['POST'])
+def simulate_communication():
+    # This endpoint would be more complex in a real application
+    # For now, it just returns a success message
+    return jsonify({'message': 'Communication simulated successfully'})
+
+@app.route('/simulate/failure', methods=['POST'])
+def simulate_failure():
+    data = request.json
+    node_id = data.get('node_id')
+    node = next((node for node in nodes if node['id'] == node_id), None)
+    if node is None:
+        return jsonify({'message': 'Node not found'}), 404
+    node['status'] = 'failed'
+    return jsonify({'message': f'Node {node_id} failed'})
+
+@app.route('/simulate/recovery', methods=['POST'])
+def simulate_recovery():
+    data = request.json
+    node_id = data.get('node_id')
+    node = next((node for node in nodes if node['id'] == node_id), None)
+    if node is None:
+        return jsonify({'message': 'Node not found'}), 404
+    node['status'] = 'active'
+    return jsonify({'message': f'Node {node_id} recovered'})
+
+
 if __name__ == '__main__':
     app.run(debug=True)
 
