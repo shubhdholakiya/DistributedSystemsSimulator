@@ -27,6 +27,10 @@ with app.app_context():
 # In-memory data structure to store nodes
 nodes = []
 
+@app.route('/')
+def home():
+    return 'Welcome to the Distributed Systems Simulator!'
+
 @app.route('/nodes', methods=['POST'])
 def create_node():
     data = request.json
