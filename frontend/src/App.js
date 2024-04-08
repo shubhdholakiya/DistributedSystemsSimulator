@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import BarChart from './BarChart';
+
 
 function App() {
   const [nodes, setNodes] = useState([]);
 
+  <BarChart /> 
   useEffect(() => {
     // Fetch nodes from the backend on component mount
     fetch('/nodes')
@@ -13,9 +16,14 @@ function App() {
 
   const simulateCommunication = () => {
     // Trigger communication simulation
-    fetch('/simulate/communication', { method: 'POST' })
-      .then(response => response.json())
-      .then(data => alert(JSON.stringify(data)));
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/simulate/communication`, {
+  method: 'POST',
+  // Add any other options for your fetch request here
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));
+
   };
 
   return (

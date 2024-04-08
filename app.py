@@ -4,7 +4,7 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 import random
-
+from flask_cors import CORS
 
 app = Flask(__name__)
 
@@ -27,9 +27,10 @@ with app.app_context():
 # In-memory data structure to store nodes
 nodes = []
 
+CORS(app)
 @app.route('/')
 def home():
-    return 'Welcome to the Distributed Systems Simulator!'
+    return 'Home page'
 
 @app.route('/nodes', methods=['POST'])
 def create_node():
