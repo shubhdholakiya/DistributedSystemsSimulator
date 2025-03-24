@@ -22,3 +22,10 @@ The app fetches a list of nodes from the backend, displays their status, and let
 - Simulate communication between nodes with one click
 
 ---
+
+## 📦 Install & Run
+
+### 1. Clone the repo:
+```bash
+git clone https://github.com/yourusername/distributed-systems-simulator.git
+cd distributed-systems-simulator
